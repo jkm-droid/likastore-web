@@ -16,7 +16,8 @@ class CreateFlippersTable extends Migration
         Schema::create('flippers', function (Blueprint $table) {
             $table->id();
             $table->string('poster_name');
-            $table->string('posterurl');
+            $table->binary('image');
+            $table->string('poster_url');
             $table->timestamps();
         });
     }

@@ -28,7 +28,7 @@
             </div>
             <div class="col-md-4">
                 <label for="inputphonenumber" class="form-label">Phone Number</label>
-                <input type="number" name="phonenumber" value="{{ $order->phonenumber}}" class="form-control" placeholder="enter Phone Number" id="phonenumber">
+                <input type="number" name="phone_number" value="{{ $order->phone_number}}" class="form-control" placeholder="enter Phone Number" id="phonenumber">
             </div>
             <div class="col-md-4">
                 <label for="inputorderlocation" class="form-label">Location</label>
@@ -39,9 +39,9 @@
         <div class="row g-3">
             <div class="col-md-4 mt-3">
                 <label for="inputordertype" class="form-label">Order Status</label>
-                <select name="orderstatus" id="orderstatus" class="form-select form-control" aria-label="Default select example" autofocus>
-                    @if($order->orderstatus)
-                        <option value="{{ $order->orderstatus }}" selected>{{ $order->orderstatus }}</option>
+                <select name="order_status" id="orderstatus" class="form-select form-control" aria-label="Default select example" autofocus>
+                    @if($order->order_status)
+                        <option value="{{ $order->order_status }}" selected>{{ $order->order_status }}</option>
                     @endif
                     <option value="pending">Pending</option>
                     <option value="confirmed">Confirmed</option>
@@ -51,11 +51,11 @@
             </div>
             <div class="col-md-4">
                 <label for="inputtotalprice" class="form-label">Total Price</label>
-                <input type="text" name="totalprice" value="{{ $order->totalprice}}" class="form-control" placeholder="enter total price" id="totalprice">
+                <input type="text" name="total_price" value="{{ $order->total_price}}" class="form-control" placeholder="enter total price" id="totalprice">
             </div>
             <div class="col-md-4">
                 <label for="inputpaymentmethod" class="form-label">Payment Method</label>
-                <input type="text" name="paymentmethod" value="{{ $order->paymentmethod}}" class="form-control" placeholder="enter paymentmethod" id="paymentmethod">
+                <input type="text" name="payment_method" value="{{ $order->payment_method}}" class="form-control" placeholder="enter payment method" id="paymentmethod">
             </div>
             <!-- <input type="hidden" name="order_id" class="form-control" id="order_id"> -->
         </div>

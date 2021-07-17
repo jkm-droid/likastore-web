@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUsernameToUserTables extends Migration
+class AddImageNameToDrinksTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddUsernameToUserTables extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('username');
+        Schema::table('drinks', function (Blueprint $table) {
+            $table->string("image_name")->default("drinks.jpg");
         });
     }
 
@@ -25,8 +25,8 @@ class AddUsernameToUserTables extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('username');
+        Schema::table('drinks', function (Blueprint $table) {
+            $table->dropColumn("image_name");
         });
     }
 }

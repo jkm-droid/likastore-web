@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DrinkController;
 use App\Http\Controllers\OrderController;
@@ -35,9 +36,12 @@ Route::get('logout', [UserController::class, 'logout'])->name('user.logout');
 Route::get('drinks/category/{category}', [DrinkController::class, 'category'])->name('drinks.category');
 Route::resource('drinks', DrinkController::class);
 
+Route::put('/orders/pay/{order_id}', [OrderController::class, 'pay'])->name('orders.pay');
 Route::put('/orders/confirm/{order_id}', [OrderController::class, 'confirm'])->name('orders.confirm');
 Route::put('/orders/deliver/{order_id}', [OrderController::class, 'deliver'])->name('orders.deliver');
 Route::resource('orders', OrderController::class);
+
+Route::resource('tasks', TaskController::class);
 
 Route::resource('flippers', FlipperController::class);
 

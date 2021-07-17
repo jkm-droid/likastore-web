@@ -21,6 +21,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <link href="{{ asset("/admin-lte/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
 
+    <link href="{{ asset("/css/tables.css")}}" rel="stylesheet" type="text/css" />
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -87,5 +89,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 {{--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>--}}
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<!-- fullCalendar 2.2.5 -->
+<script src="{{asset("/admin-lte/plugins/fullcalendar/fullcalendar.min.js")}}" type="text/javascript"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js" type="text/javascript"></script>
+<!-- Page specific script -->
 </body>
 </html>

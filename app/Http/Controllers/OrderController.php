@@ -11,7 +11,7 @@ class OrderController extends Controller
     public function __construct(){
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -19,10 +19,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::latest()->paginate(10);
+        $orders = Order::latest()->paginate(12);
 
-        return view('orders.index', compact('orders')) 
-        ->with('i', (request()->input('page', 1) - 1) * 10);
+        return view('orders.index', compact('orders'))
+            ->with('i', (request()->input('page', 1) - 1) * 12);
     }
 
     /**
@@ -43,7 +43,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-       
+
     }
 
     /**
@@ -80,12 +80,12 @@ class OrderController extends Controller
         $request->validate(
             [
                 'order_id'=>'required',
-                'phonenumber'=>'required',
+                'phone_number'=>'required',
                 'location'=>'required',
-                'paymentmethod'=>'required',
-                'totalprice'=>'required',
+                'payment_method'=>'required',
+                'total_price'=>'required',
                 'drinks'=>'required',
-                'orderstatus'=>'required',
+                'order_status'=>'required',
             ]
         );
 
@@ -101,11 +101,26 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
+    public function pay(Request $request, $order_id)
+    {
+
+        DB::table('orders')->where('id', $order_id)->update(['paid'=>1]);
+
+        return redirect()->route('orders.index')->with('success', 'Order paid successfully');
+    }
+
+    /**
+     * Confirm the order status, change from pending to confirmed
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Http\Response
+     */
     public function confirm(Request $request, $order_id)
     {
-       
-        DB::table('orders')->where('id', $order_id)->update(['orderstatus'=>'confirmed']);
-        
+
+        DB::table('orders')->where('id', $order_id)->update(['order_status'=>'confirmed']);
+
         return redirect()->route('orders.index')->with('success', 'Order confirmed successfully');
     }
 
@@ -118,7 +133,7 @@ class OrderController extends Controller
      */
     public function deliver(Request $request, $order_id)
     {
-        DB::table('orders')->where('id', $order_id)->update(['orderstatus'=>'delivered']);
+        DB::table('orders')->where('id', $order_id)->update(['order_status'=>'delivered']);
 
         return redirect()->route('orders.index')->with('success','Order delivered successfully');
     }

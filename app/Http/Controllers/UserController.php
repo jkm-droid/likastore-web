@@ -72,7 +72,7 @@ class UserController extends Controller{
             $orders = Order::count();
 
             //get the latest orders
-            $latest_orders  = Order::orderBy('created_at', 'desc')->take(7)->get();
+            $latest_orders  = Order::orderBy('created_at', 'desc')->take(8)->get();
 
             //get the recently added products
             $recent_drinks  = Drink::orderBy('created_at', 'desc')->take(5)->get();

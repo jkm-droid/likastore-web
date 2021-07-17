@@ -11,6 +11,9 @@
             <p>{{ $message }}</p>
         </div>
     @endif
+    @if($images->isEmpty())
+        <p class="text-center text-danger">No images found!</p>
+    @else
     <table class="table table-striped table-hover" style="margin-top: 5px;">
         <tr>
             <th>No</th>
@@ -18,7 +21,6 @@
             <th>Status</th>
             <th class="text-center" width="180px">Action</th>
         </tr>
-        @if($images)
         @foreach ($images as $image)
             <tr>
                 <td>{{ ++$i }}</td>
@@ -40,9 +42,8 @@
             </tr>
         @endforeach
     </table>
-    @else
-        <div class="text-center text-info">No images found</div>
     @endif
+
     {!! $images->links() !!}
 
 @endsection

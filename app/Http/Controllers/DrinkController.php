@@ -20,10 +20,10 @@ class DrinkController extends Controller
      */
     public function index()
     {
-        $drinks = Drink::latest()->paginate(10);
+        $drinks = Drink::latest()->paginate(11);
 
         return view('drinks.index', compact('drinks'))
-            ->with('i', (request()->input('page', 1) - 1) * 10);
+            ->with('i', (request()->input('page', 1) - 1) * 11);
     }
 
     /**
@@ -56,9 +56,9 @@ class DrinkController extends Controller
 
         $data = $request->all();
         $imageName = str_replace(' ','_',$data['drink_name']).'.'.$request->image->extension();
-        $request->image->move(public_path('images'), $imageName);
+        $request->image->move(public_path('dimages'), $imageName);
 
-        $poster_header = env("APP_IMAGES_URL", "https://likastore.mblog.co.ke/images/");
+        $poster_header = env("APP_IMAGES_URL", "https://likastore.mblog.co.ke/dimages/");
         $data['poster_url'] = $poster_header .''.$imageName;
         $data['image_name'] = $imageName;
 

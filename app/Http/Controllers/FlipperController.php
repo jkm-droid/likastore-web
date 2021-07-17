@@ -57,7 +57,7 @@ class FlipperController extends Controller{
         $request->image->move(public_path('posters'), $imageName);
 
         $poster_header = env("APP_POSTERS_URL", "https://likastore.mblog.co.ke/posters/");
-        $data['posterurl'] = $poster_header .''.$imageName;
+        $data['poster_url'] = $poster_header .''.$imageName;
         $data['poster_name'] = $imageName;
 
         Flipper::create($data);
@@ -111,7 +111,7 @@ class FlipperController extends Controller{
             File::delete($flipper->poster_name);
 
             $poster_header = env("APP_POSTERS_URL", "https://likastore.mblog.co.ke/posters/");
-            $data['posterurl'] = $poster_header . '' . $imageName;
+            $data['poster_url'] = $poster_header . '' . $imageName;
             $data['poster_name'] = $imageName;
         }
 

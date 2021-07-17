@@ -8,13 +8,15 @@
     @if ($message = Session::get('success'))
         <p class="alert alert-success">{{ $message }}</p>
     @endif
-
-    <table class="table table-striped table-hover">
+    @if($flippers->isEmpty())
+        <p class="text-center text-danger">No posters found!</p>
+    @else
+    <table class="table table-striped table-hover mt-3">
         <tr>
             <th>No</th>
             <th>Poster Name</th>
             <th>Poster Image</th>
-            <th>Poster Url</th>
+            <th class="hide-data">Poster Url</th>
             <th>Action</th>
         </tr>
         @foreach ($flippers as $flipper)
@@ -22,7 +24,7 @@
                 <td>{{ ++$i }}</td>
                 <td>{{ $flipper->poster_name }}</td>
                 <td><img src="/posters/{{ $flipper->poster_name }}" alt="" width="40px" height="40px"></td>
-                <td>{{ $flipper->posterurl }}</td>
+                <td class="hide-data">{{ $flipper->poster_url }}</td>
                 <td>
                     <form action="{{ route('flippers.destroy',$flipper->id) }}" method="POST">
 
@@ -39,6 +41,7 @@
             </tr>
         @endforeach
     </table>
+    @endif
 
     {!! $flippers->links() !!}
 

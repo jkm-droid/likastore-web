@@ -92,12 +92,12 @@
                                 <tr>
                                     <td>{{$latest->order_id}}</td>
                                     <td>{{$latest->drinks}}</td>
-                                    @if($latest->orderstatus == 'pending')
-                                        <td><span class="label label-warning">{{$latest->orderstatus}}</span></td>
-                                    @elseif($latest->orderstatus == 'confirmed')
-                                        <td><span class="label label-info">{{$latest->orderstatus}}</span></td>
+                                    @if($latest->order_status == 'pending')
+                                        <td><span class="label label-warning">{{$latest->order_status}}</span></td>
+                                    @elseif($latest->order_status == 'confirmed')
+                                        <td><span class="label label-info">{{$latest->order_status}}</span></td>
                                     @else
-                                        <td><span class="label label-success">{{$latest->orderstatus}}</span></td>
+                                        <td><span class="label label-success">{{$latest->order_status}}</span></td>
                                     @endif
                                     <td>{{$latest->location}}</td>
                                 </tr>

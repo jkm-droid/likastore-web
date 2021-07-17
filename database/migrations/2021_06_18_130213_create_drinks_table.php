@@ -17,6 +17,7 @@ class CreateDrinksTable extends Migration
             $table->id();
             $table->string('drink_name');
             $table->integer('drink_price');
+            $table->binary('image')->default("drinks.jpg");
             $table->string('drink_category');
             $table->text('drink_description');
             $table->string('poster_url');

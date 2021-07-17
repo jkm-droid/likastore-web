@@ -1,0 +1,41 @@
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+    .text {font-size: 11px}
+    .hide-data{
+        display: none;
+    }
+}
+@media only screen and (max-width: 450px) {
+    .text {font-size: 11px}
+    .hide-data{
+        display: none;
+    }
+}
+
+table td{
+    border: none;
+}
+
+.table>tbody>tr:nth-child(odd)>td,
+.table>tbody>tr:nth-child(odd)>th {
+    background-color: #9eaab3;
+    border: none;
+}
+.table>tbody>tr:nth-child(even)>td,
+.table>tbody>tr:nth-child(even)>th {
+    background-color: #d3dbdc;
+    border: none;
+}
+.table>tbody>tr>th{
+    color: #fff;
+    font-weight: bolder;
+    font-size: large;
+}
+.table>tbody>tr>td{
+    color: #0a0a0a;
+}
+
+h2{
+    color: #0a0a0a;
+    font-weight: bold;
+}

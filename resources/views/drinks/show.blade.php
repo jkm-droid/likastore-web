@@ -4,6 +4,7 @@
     <h2>{{ $drink->drink_name}}</h2>
 
     <a class="btn btn-primary" href="{{ route('drinks.index') }}"> Back</a>
+    <a class="btn btn-warning" href="{{ route('drinks.edit', $drink->id) }}"> Edit</a>
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -37,5 +38,9 @@
                 {{ $drink->poster_url }}
             </div>
         </div>
+        <div class="m-3" style="margin: 15px;">
+            <img class="rounded" src="/dimages/{{ $drink->image_name }}" alt="" width="400px" height="500px"/>
+        </div>
+
     </div>
 @endsection

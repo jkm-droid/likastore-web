@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableImages extends Migration
+class CreateTableTasks extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateTableImages extends Migration
      */
     public function up()
     {
-        Schema::table('images', function (Blueprint $table) {
-            $table->binary('image');
+        Schema::create('table_tasks', function (Blueprint $table) {
+            $table->id();
+            $table->string("task_name");
+            $table->string("task_description");
+            $table->boolean("done")->default(0);
+            $table->dateTime("task_date");
             $table->timestamps();
         });
     }
@@ -26,8 +30,6 @@ class CreateTableImages extends Migration
      */
     public function down()
     {
-        Schema::table('images', function (Blueprint $table) {
-            $table->dropColumn('image');
-        });
+        Schema::dropIfExists('table_tasks');
     }
 }
