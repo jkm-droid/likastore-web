@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Drink;
 use App\Models\Order;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class UserController extends Controller{
     public function __construct(){
@@ -98,5 +102,61 @@ class UserController extends Controller{
         $request->session()->invalidate();
 
         return redirect()->route('show.login')->with('success', 'Logged out successfully');
+    }
+
+    public function show_forgot_pass_form(){
+        return view('users.forgot_pass');
+    }
+
+    public function submit_forgot_pass_form(Request $request){
+        $request->validate([
+            'email'=>'required|email|exists:users',
+        ]);
+
+        //generate token
+        $token = Str::random(65);
+        DB::table('password_resets')->insert([
+            'email'=>trim($request->email),
+            'token'=>$token,
+            'created_at'=>Carbon::now()
+        ]);
+
+        Mail::send('mail.forgot_pass', ['token'=>$token], function ($message) use($request){
+            $message->to($request->email);
+            $message->subject('Reset Password Notification');
+        });
+
+        return redirect()->route('user.forgot_pass')->with('success', 'We have emailed an email reset link to '.$request->email);
+    }
+
+    public function show_reset_pass_form($token){
+        return view('users.reset_pass', ['token'=>$token]);
+    }
+
+    public function reset_pass(Request $request){
+        $request->validate([
+            'email'=>'email|exists:users',
+            'password'=>'required|string|min:6|same:password_confirm',
+            'password_confirm'=>'required'
+        ]);
+
+        $info = $request->all();
+        $email = trim($info['email']);
+        $password = trim($info['password']);
+        $token = $request->token;
+        
+        $new_password = DB::table('password_resets')->where([
+            'email'=>$email,
+            'token'=>$token
+        ])->first();
+
+        if (!$new_password){
+            return back()->withInput()->with('error','Invalid token');
+        }
+
+        $user = User::where('email', $email)->update(['password'=>Hash::make($password)]);
+        DB::table('password_resets')->where(['email'=>$email])->delete();
+
+        return redirect()->route('show.login')->with('success', 'Password changed successfully, Login');
     }
 }

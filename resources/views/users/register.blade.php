@@ -1,63 +1,62 @@
-@extends('base.users_index')
+@extends('base.login_register')
 
 @section('content')
-<main class="signup-form">
-    <div class="cotainer">
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <div class="card">
-                    <h3 class="card-header text-center">Register User</h3>
-                    <div class="card-body">
-
-                        <form action="{{ route('user.register') }}" method="POST">
-                            @csrf
-                            <div class="form-group mb-3">
-                                <input type="text" placeholder="Username" id="username" class="form-control" name="username"
-                                    required autofocus>
-                                @if ($errors->has('username'))
-                                <span class="text-danger">{{ $errors->first('username') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <input type="text" placeholder="Name" id="name" class="form-control" name="name"
-                                    required autofocus>
-                                @if ($errors->has('name'))
-                                <span class="text-danger">{{ $errors->first('name') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <input type="text" placeholder="Email" id="email_address" class="form-control"
-                                    name="email" required autofocus>
-                                @if ($errors->has('email'))
-                                <span class="text-danger">{{ $errors->first('email') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <input type="password" placeholder="Password" id="password" class="form-control"
-                                    name="password" required>
-                                @if ($errors->has('password'))
-                                <span class="text-danger">{{ $errors->first('password') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <div class="checkbox">
-                                    <label><input type="checkbox" name="remember"> Remember Me</label>
-                                </div>
-                            </div>
-
-                            <div class="d-grid mx-auto">
-                                <button type="submit" class="btn btn-dark btn-block">Sign up</button>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
+    <div class="register-box">
+        <div class="register-logo">
+            <a href="/"><b>Lika</b>Store</a>
         </div>
+
+        <div class="register-box-body">
+            <p class="login-box-msg">Register a new membership</p>
+            @if ($message = Session::get('error'))
+                <p class="alert alert-danger">{{ $message }}</p>
+            @endif
+            <form action="{{ route('user.register') }}" method="post">
+                @csrf
+                <div class="form-group has-feedback">
+                    <input type="text" name="username" class="form-control" placeholder="Username" />
+                    @if ($errors->has('username'))
+                        <div class="text-danger form-text">{{ $errors->first('username') }}</div>
+                    @endif
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" name="name" class="form-control" placeholder="Full Name" />
+                    @if ($errors->has('name'))
+                        <div class="text-danger form-text">{{ $errors->first('name') }}</div>
+                    @endif
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="email" class="form-control" name="email" placeholder="Email" />
+                    @if ($errors->has('email'))
+                        <div class="text-danger form-text">{{ $errors->first('email') }}</div>
+                    @endif
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" name="password" class="form-control" placeholder="Password" />
+                    @if ($errors->has('password'))
+                        <div class="text-danger form-text">{{ $errors->first('password') }}</div>
+                    @endif
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input type="checkbox"> I agree to the <a href="#">terms</a>
+                            </label>
+                        </div>
+                    </div><!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                    </div><!-- /.col -->
+                </div>
+            </form>
+
+            <a href="{{ route('show.login') }}" class="text-center">I already have a membership</a>
+        </div><!-- /.form-box -->
     </div>
-</main>
 @endsection

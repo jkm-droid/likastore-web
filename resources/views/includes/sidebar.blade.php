@@ -5,7 +5,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ asset("/admin-lte/dist/img/user2-160x160.jpg") }}" class="img-circle" alt="User Image" />
+                <img style="height: 40px; width: 40px;"  src="/profile_pictures/{{ \Illuminate\Support\Facades\Auth::user()->profile_url }}" class="img-circle" alt="" />
             </div>
             <div class="pull-left info">
                 <p>{{ Auth::user()->email }}</p>
@@ -30,6 +30,14 @@
                     <i class="fa fa-home"></i> <span>Dashboard</span>
                 </a>
             </li>
+            @if(\Illuminate\Support\Facades\Auth::user()->is_super_admin == 1)
+            <li class="treeview">
+                <a href="{{ route('profile.index') }}">
+                    <i class="fa fa-user"></i>
+                    <span>Super Admin</span>
+                </a>
+            </li>
+            @endif
             <li class="treeview">
                 <a href="{{ route('drinks.index') }}">
                     <i class="fa fa-glass"></i>
@@ -58,22 +66,33 @@
                 </ul>
             </li>
             <li class="treeview">
-                <a href="{{ route('images.index') }}">
-                    <i class="fa fa-image"></i>
-                    <span>Images</span>
-                </a>
-            </li>
-            <li class="treeview">
                 <a href="{{ route('flippers.index') }}">
                     <i class="fa fa-table"></i> <span>Flippers</span>
                 </a>
             </li>
-            <li>
-                <a href="{{route('tasks.index')}}">
-                    <i class="fa fa-calendar"></i> <span>Tasks</span>
-                    <small class="label pull-right bg-red">3</small>
+            <li class="treeview">
+                <a href="{{ route('profile.view', \Illuminate\Support\Facades\Auth::user()->id) }}">
+                    <i class="fa fa-user"></i> <span>My Profile</span>
                 </a>
             </li>
+            <li class="treeview">
+                <a href="{{ route('profile.edit', \Illuminate\Support\Facades\Auth::user()->id) }}">
+                    <i class="fa fa-pencil"></i> <span>Edit Profile</span>
+                </a>
+            </li>
+{{--            <li class="treeview">--}}
+{{--                <a href="{{ route('images.index') }}">--}}
+{{--                    <i class="fa fa-image"></i>--}}
+{{--                    <span>Images</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
+
+{{--            <li>--}}
+{{--                <a href="{{route('tasks.index')}}">--}}
+{{--                    <i class="fa fa-calendar"></i> <span>Tasks</span>--}}
+{{--                    <small class="label pull-right bg-red">3</small>--}}
+{{--                </a>--}}
+{{--            </li>--}}
             <li><a href="#"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
             <li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Success</span></a></li>

@@ -1,56 +1,53 @@
-@extends('base.users_index')
+@extends('base.login_register')
 
 @section('content')
-<main class="login-form">
-    <div class="cotainer">
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <div class="card">
-                    <h3 class="card-header text-center">Login</h3>
-                    <div class="card-body">
-                        @if ($message = Session::get('success'))
-                            <p class="alert alert-success">{{ $message }}</p>
-                        @endif
-                        @if ($message = Session::get('error'))
-                            <p class="alert alert-danger">{{ $message }}</p>
-                        @endif
-                        <form method="POST" action="{{ route('user.login') }}">
-                            @csrf
-                            <label for="username" class="col-md-4 col-form-label text-md-right">Username Or Email</label>
-                            <div class="form-group mb-3">
-                                <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required  autofocus>
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="/"><b>Lika</b>Store</a>
+        </div><!-- /.login-logo -->
+        <div class="login-box-body">
+            <p class="login-box-msg">Sign in to start your session</p>
+            @if ($message = Session::get('success'))
+                <p class="alert alert-success">{{ $message }}</p>
+            @endif
+            @if ($message = Session::get('error'))
+                <p class="alert alert-danger">{{ $message }}</p>
+            @endif
 
-                                @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <label for="username" class="col-md-4 col-form-label text-md-right">Password</label>
-                            <div class="form-group mb-3">
-                                <input type="password" placeholder="Password" id="password" class="form-control" name="password" required>
-                                @if ($errors->has('password'))
-                                <span class="text-danger">{{ $errors->first('password') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="d-grid mx-auto">
-                                <button type="submit" class="btn btn-dark btn-block">Signin</button>
-                            </div>
-                        </form>
-
-                    </div>
+            <form action="{{ route('user.login') }}" method="post">
+                @csrf
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" name="username" placeholder="Username or Email" />
+                    @if ($errors->has('username'))
+                        <div class="text-danger form-text">{{ $errors->first('username') }}</div>
+                    @endif
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
-            </div>
-        </div>
-    </div>
-</main>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control" name="password" placeholder="Password" />
+                    @if ($errors->has('password'))
+                        <div class="text-danger form-text">{{ $errors->first('password') }}</div>
+                    @endif
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck ">
+                            <label>
+                                <input class="ml-3" type="checkbox"> Remember Me
+                            </label>
+                        </div>
+                    </div><!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                    </div><!-- /.col -->
+                </div>
+            </form>
+
+            <a href="{{ route('user.forgot_pass') }}">I forgot my password</a><br>
+            <a href="{{ route('show.register') }}" class="text-center">Register a new membership</a>
+
+        </div><!-- /.login-box-body -->
+    </div><!-- /.login-box -->
+
 @endsection
