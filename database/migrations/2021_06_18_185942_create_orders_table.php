@@ -23,7 +23,7 @@ class CreateOrdersTable extends Migration
             $table->boolean("paid")->default(0);
             $table->string("payment_code");
             $table->text('drinks');
-            $table->string('order_status');
+            $table->string('order_status')->default("pending");
             $table->timestamps();
         });
     }

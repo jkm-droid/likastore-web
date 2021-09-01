@@ -30,14 +30,6 @@
                     <i class="fa fa-home"></i> <span>Dashboard</span>
                 </a>
             </li>
-            @if(\Illuminate\Support\Facades\Auth::user()->is_super_admin == 1)
-            <li class="treeview">
-                <a href="{{ route('profile.index') }}">
-                    <i class="fa fa-user"></i>
-                    <span>Super Admin</span>
-                </a>
-            </li>
-            @endif
             <li class="treeview">
                 <a href="{{ route('drinks.index') }}">
                     <i class="fa fa-glass"></i>
@@ -66,8 +58,13 @@
                 </ul>
             </li>
             <li class="treeview">
+                <a href="{{ route('sold.index') }}">
+                    <i class="fa fa-money"></i> <span>Drinks Sold</span>
+                </a>
+            </li>
+            <li class="treeview">
                 <a href="{{ route('flippers.index') }}">
-                    <i class="fa fa-table"></i> <span>Flippers</span>
+                    <i class="fa fa-image"></i> <span>Flippers</span>
                 </a>
             </li>
             <li class="treeview">
@@ -80,6 +77,14 @@
                     <i class="fa fa-pencil"></i> <span>Edit Profile</span>
                 </a>
             </li>
+            @if(\Illuminate\Support\Facades\Auth::user()->is_super_admin == 1)
+                <li class="treeview">
+                    <a href="{{ route('profile.index') }}">
+                        <i class="fa fa-user"></i>
+                        <span>Super Admin</span>
+                    </a>
+                </li>
+            @endif
 {{--            <li class="treeview">--}}
 {{--                <a href="{{ route('images.index') }}">--}}
 {{--                    <i class="fa fa-image"></i>--}}

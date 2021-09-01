@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MpesaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+//lipa na mpesa routes
+Route::post('likastore/stk_push', [MpesaController::class, 'mpesa_stk_push']);
+Route::post('likastore/save_transactions', [MpesaController::class, 'save_transaction_details']);

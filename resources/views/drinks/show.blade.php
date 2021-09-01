@@ -1,12 +1,21 @@
 @extends('base.index')
 
 @section('content')
-    <h2>{{ $drink->drink_name}}</h2>
+    <section class="content-header mb-3">
+        <h1>
+           {{ $drink->drink_name}}
+        </h1>
+        <ol class="breadcrumb text-black">
+            <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{{ route('drinks.index') }}">Drinks</a></li>
+            <li>View</li>
+            <li class="active">{{ $drink->drink_name}}</li>
+        </ol>
+    </section>
 
-    <a class="btn btn-primary" href="{{ route('drinks.index') }}"> Back</a>
-    <a class="btn btn-warning" href="{{ route('drinks.edit', $drink->id) }}"> Edit</a>
-
-    <div class="row">
+    <div class="row text-center">
+        <a class="btn btn-primary" href="{{ route('drinks.index') }}"> Back</a>
+        <a class="btn btn-warning" href="{{ route('drinks.edit', $drink->id) }}"> Edit</a>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Name:</strong>

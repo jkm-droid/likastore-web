@@ -5,11 +5,11 @@
         <h2>Users</h2>
     </div>
 
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
+{{--    @if ($message = Session::get('success'))--}}
+{{--        <div class="alert alert-success">--}}
+{{--            <p>{{ $message }}</p>--}}
+{{--        </div>--}}
+{{--    @endif--}}
     @if($users->isEmpty())
         <p class="text-center text-danger">No users found!</p>
     @else

@@ -21,7 +21,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="login-page register-page" style="font-size: large;">
+<body class="login-page register-page" style="font-size: large; background-color: #698ea7;">
     @yield('content')
 <!-- jQuery 2.1.4 -->
 <script src="{{ asset('admin-lte/plugins/jQuery/jQuery-2.1.4.min.js') }}" type="text/javascript"></script>

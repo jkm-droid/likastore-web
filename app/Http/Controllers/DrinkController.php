@@ -79,17 +79,27 @@ class DrinkController extends Controller
         return view('drinks.show', compact('drink'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Drink  $drinks
-     * @return \Illuminate\Http\Response
-     */
-    public function category(Drink $drink, $category){
+
+    public function category($category){
         $drinks_cat = Drink::latest()->where('drink_category', $category)->paginate(10);
 
         return view('drinks.category', compact('drinks_cat'))
             ->with('i', (request()->input('page', 1) - 1) * 10)->with('category', $category);
+    }
+
+    public function publish_drink($drink_id){
+        $drink = Drink::find($drink_id);
+        if ($drink->is_published == 0){
+            $drink->is_published = 1;
+            $drink->update();
+            $message = 'published successfully';
+        }elseif ($drink->is_published == 1){
+            $drink->is_published = 0;
+            $drink->update();
+            $message = 'un-published successfully';
+        }
+
+        return redirect()->route('drinks.index')->with('success', $message);
     }
 
     /**

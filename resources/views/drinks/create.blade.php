@@ -1,63 +1,78 @@
 @extends('base.index')
 
 @section('content')
-    <h2>Add New Drink</h2>
+    <section class="content-header mb-3">
+        <h1>
+            Add New Drink
+        </h1>
+        <ol class="breadcrumb text-black">
+            <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class=""><a href="{{ route('drinks.index') }}">Drinks</a></li>
+            <li class="active">Add New Drinks</li>
+        </ol>
+    </section>
 
-    <a class="btn btn-primary" href="{{ route('drinks.index') }}"> Back</a>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    <div class="box box-success mt-3">
+        <div class="box-header with-border">
+            <h3 class="box-title"><a class="btn btn-sm btn-success" href="{{ route('drinks.index') }}">Back</a></h3>
         </div>
-    @endif
+        <form role="form" method="post" action="{{ route('drinks.store') }}" id="form_submit" enctype="multipart/form-data">
+            @csrf
+            <div class="box-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="drink_name" class="form-label">Name</label>
+                        <input type="text" name="drink_name" class="form-control" placeholder="enter drink name" id="name">
+                        @if ($errors->has('drink_name'))
+                            <div class="text-danger form-text">{{ $errors->first('drink_name') }}</div>
+                        @endif
+                    </div>
+                    <div class="col-md-6">
+                        <label for="drink_price" class="form-label">Price</label>
+                        <input type="number" name="drink_price" class="form-control" placeholder="enter drink price" id="price">
+                        @if ($errors->has('drink_price'))
+                            <div class="text-danger form-text">{{ $errors->first('drink_price') }}</div>
+                        @endif
+                    </div>
+                </div>
 
-    <form class="mt-4" method="post" action="{{ route('drinks.store') }}" id="form_submit" enctype="multipart/form-data">
-        @csrf
-        <div class="row g-3">
-            <div class="col-md-6">
-                <label for="inputdrinkname" class="form-label">Name</label>
-                <input type="text" name="drink_name" class="form-control" placeholder="enter drink name" id="name">
+                <div class="row g-3">
+                    <div class="col-md-6 mt-3">
+                        <label for="drink_category" class="form-label">Category</label>
+                        <select name="drink_category" id="category" class="form-select form-control" aria-label="Default select example" autofocus>
+                            <option value="" disabled selected>Select drink category</option>
+                            <option value="vodka">Vodka</option>
+                            <option value="beer">Beer</option>
+                            <option value="gin">Gin</option>
+                            <option value="whiskey">Whiskey</option>
+                            <option value="soft_drinks">Soft Drinks</option>
+                        </select>
+                        @if ($errors->has('drink_category'))
+                            <div class="text-danger form-text">{{ $errors->first('drink_category') }}</div>
+                        @endif
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputposterurl" class="form-label">Poster Image</label>
+                        <input type="file" name="image" class="form-control" id="image">
+                        @if ($errors->has('image'))
+                            <div class="text-danger form-text">{{ $errors->first('image') }}</div>
+                        @endif
+                    </div>
+                </div>
+
+                <div>
+                    <label for="drink_description" class="form-label">Description</label>
+                    <textarea class="form-control" name="drink_description" id="description" rows="4"></textarea>
+                    @if ($errors->has('drink_description'))
+                        <div class="text-danger form-text">{{ $errors->first('drink_description') }}</div>
+                    @endif
+                </div>
             </div>
-            <div class="col-md-6">
-                <label for="inputdrinkprice" class="form-label">Price</label>
-                <input type="number" name="drink_price" class="form-control" placeholder="enter drink Price" id="price">
+
+            <div class="box-footer">
+                <input type="submit" id="submit_button" value="Save drink" name="save_drinks" class="btn btn-success">
             </div>
-        </div>
 
-        <div class="row g-3">
-            <div class="col-md-6 mt-3">
-                <label for="inputdrinktype" class="form-label">Category</label>
-                <select name="drink_category" id="category" class="form-select form-control" aria-label="Default select example" autofocus>
-                    <option selected>Select drink category</option>
-                    <option value="vodka">Vodka</option>
-                    <option value="beer">Beer</option>
-                    <option value="gin">Gin</option>
-                    <option value="whiskey">Whiskey</option>
-                </select>
-            </div>
-            <div class="col-md-6">
-                <label for="inputposterurl" class="form-label">Poster Image</label>
-                <input type="file" name="image" class="form-control" id="image">
-            </div>
-            <input type="hidden" name="drink_id" class="form-control" id="drink_id">
-        </div>
-
-        <div>
-            <label for="drinkstory" class="form-label">Description</label>
-            <textarea class="form-control" name="drink_description" id="description" rows="4"></textarea>
-        </div>
-
-        <br>
-
-        <div class="col-md-6 offset-md-3 d-grid">
-            <input type="submit" id="submit_button" value="Save drink" name="save_drinks" class="btn btn-info">
-            <input type="submit" id="update_button" value="Update drink" name="update_drinks" class="btn btn-primary" style="display:none;">
-        </div>
-
-    </form>
+        </form>
+    </div>
 @endsection

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Drink;
+use App\Models\NewsLetter;
 use App\Models\Order;
 use Carbon\Carbon;
+use http\Env\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -31,9 +33,10 @@ class UserController extends Controller{
         ]);
 
         $info = $request->all();
+        $remember_me = $request->has('remember_me');
 
         $credentials = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        if(Auth::attempt(array($credentials=>$info['username'], 'password'=>$info['password'], 'is_admin'=>1))){
+        if(Auth::attempt(array($credentials=>$info['username'], 'password'=>$info['password'], 'is_admin'=>1), $remember_me)){
             return redirect()->intended('dashboard')->with('success', 'logged in successfully');
         }
 
@@ -66,32 +69,6 @@ class UserController extends Controller{
             'email'=>$data['email'],
             'password'=>Hash::make($data['password'])
         ]);
-    }
-
-    public function dashboard(){
-        if(Auth::check()){
-            //get count drinks
-            $drinks = Drink::count();
-            //get count orders
-            $orders = Order::count();
-
-            //get the latest orders
-            $latest_orders  = Order::orderBy('created_at', 'desc')->take(8)->get();
-
-            //get the recently added products
-            $recent_drinks  = Drink::orderBy('created_at', 'desc')->take(5)->get();
-
-            //get users
-            $users = User::count();
-
-            //admins
-            $admin = User::where('is_admin', true)->count();
-
-            return view('dashboard.admin', compact('latest_orders', 'recent_drinks'))->
-            with('drinks', $drinks)->with('orders', $orders)->with('users', $users)->with('admins', $admin);
-        }
-
-        return redirect()->route('show.login')->with('error', 'Error, Access denied');
     }
 
     public function logout(Request $request){
@@ -144,7 +121,7 @@ class UserController extends Controller{
         $email = trim($info['email']);
         $password = trim($info['password']);
         $token = $request->token;
-        
+
         $new_password = DB::table('password_resets')->where([
             'email'=>$email,
             'token'=>$token
@@ -158,5 +135,21 @@ class UserController extends Controller{
         DB::table('password_resets')->where(['email'=>$email])->delete();
 
         return redirect()->route('show.login')->with('success', 'Password changed successfully, Login');
+    }
+
+    public function subscribe_to_newsletter(Request $request){
+        $request->validate([
+            'email'=>'required|email|unique:news_letters'
+        ]);
+        $email =  trim($request->email);
+        $newsLetter = new NewsLetter();
+        $newsLetter->email = $email;
+        $newsLetter->ip_address = $request->getClientIp();
+        $newsLetter->created_at = Carbon::now();
+
+        $newsLetter->save();
+
+        return redirect()->route('welcome')->with('success', 'Subscribed successfully');
+
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -12,39 +13,21 @@ class OrderController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $orders = Order::latest()->paginate(12);
+        $drinks = [];
+        foreach ($orders as $order){
+            $drinks = explode('/', $order->drinks);
+        }
+//        for ($i = 0;$i < count($drinks); $i++){
+////            print($drinks[$i]);
+//        }
 
-        return view('orders.index', compact('orders'))
+        return view('orders.index', compact('orders', 'drinks'))
             ->with('i', (request()->input('page', 1) - 1) * 12);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
-    }
 
     /**
      * Display the specified resource.
@@ -94,14 +77,8 @@ class OrderController extends Controller
         return redirect()->route('orders.index')->with('success','Order updated successfully');
     }
 
-    /**
-     * Confirm the order status, change from pending to confirmed
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function pay(Request $request, $order_id)
+
+    public function pay($order_id)
     {
 
         DB::table('orders')->where('id', $order_id)->update(['paid'=>1]);
@@ -109,14 +86,7 @@ class OrderController extends Controller
         return redirect()->route('orders.index')->with('success', 'Order paid successfully');
     }
 
-    /**
-     * Confirm the order status, change from pending to confirmed
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function confirm(Request $request, $order_id)
+    public function confirm($order_id)
     {
 
         DB::table('orders')->where('id', $order_id)->update(['order_status'=>'confirmed']);
@@ -124,14 +94,7 @@ class OrderController extends Controller
         return redirect()->route('orders.index')->with('success', 'Order confirmed successfully');
     }
 
-    /**
-     * Change the status from confirmed to delivered
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function deliver(Request $request, $order_id)
+    public function deliver($order_id)
     {
         DB::table('orders')->where('id', $order_id)->update(['order_status'=>'delivered']);
 
@@ -139,16 +102,44 @@ class OrderController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Order $order)
-    {
-        $order->delete();
-        return redirect()->route('orders.index')->with('success','Order deleted successfully');
+    public function destroy(Order $order){
+//        if (Auth::attempt()) {
+            $order->delete();
+            return redirect()->route('orders.index')->with('success', 'Order deleted successfully');
+//        }
 
+//        return redirect()->route('orders.index')->with('error', 'incorrect passcode');
     }
+
+    public function search_order(Request $request){
+        $search_term = trim($request->term);
+
+        $orders = DB::table('orders')
+            ->where('order_id', 'LIKE', '%'.$search_term.'%')
+            ->orWhere('phone_number','LIKE', '%'.$search_term.'%')->get();
+
+        if (!$orders->isEmpty()){
+            $data = '';
+            foreach ($orders as $order) {
+                $data .='<tr>'.
+                    '<td><a href="'.route('orders.show', $order->id).'" >'.$order->order_id.'</a></td>'.
+                    '<td>'.$order->phone_number.'</td>'.
+                    '<td>'.$order->location.'</td>'.
+                    '<td>'.$order->payment_method.'</td>'.
+                    '<td>'.$order->total_price.'</td>'.
+                    '<td>'.$order->drinks.'</td>'.
+                    '<td>'.$order->payment_code.'</td>'.
+                    '<td>'.$order->order_status.'</td>'.
+                    '</tr>';
+            }
+
+            return response($data);
+        }else {
+            return response()->json(array(
+                'status_code' => 201,
+                'message' => 'success'
+            ));
+        }
+    }
+
 }

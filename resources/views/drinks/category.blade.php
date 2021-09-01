@@ -1,10 +1,16 @@
 @extends('base.index')
 
 @section('content')
-    <div class="col-4">
-        <h2>Drinks under "{{$category}}"</h2>
-    </div>
-
+    <section class="content-header mb-3">
+        <h1>
+            Drinks under "{{$category}}"
+        </h1>
+        <ol class="breadcrumb text-black">
+            <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{{ route('drinks.index') }}">Drinks</a></li>
+            <li class="active">{{ $category}}</li>
+        </ol>
+    </section>
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
@@ -15,7 +21,7 @@
     @else
         <div class="row">
             <div class="col-xs-12">
-                <div class="box">
+                <div class="box box-success">
                     <div class="box-header">
                         <a class="btn btn-sm btn-success" href="{{ route('drinks.create') }}"> Add New drink</a>
                         <div class="box-tools">
@@ -42,7 +48,7 @@
                             @foreach ($drinks_cat as $drink)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-                                    <td>{{$drink->drink_name}}</td>
+                                    <td><a href="{{ route('drinks.show',$drink->id) }}">{{$drink->drink_name}}</a></td>
                                     <td>{{ $drink->drink_price }}</td>
                                     <td><img src="/dimages/{{ $drink->image_name }}" alt="" width="40px" height="40px"/></td>
                                     <td>{{ $drink->drink_category }}</td>

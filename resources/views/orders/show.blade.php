@@ -1,13 +1,20 @@
 @extends('base.index')
 
 @section('content')
-    <div class="">
-        <h2> Order {{ $order->order_id}}</h2>
+    <section class="content-header">
+        <h1>
+            Order {{ $order->order_id}}
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li>Orders</li>
+            <li class="active">View</li>
+        </ol>
+    </section>
+
+    <div class="row text-center">
         <a class="btn btn-primary" href="{{ route('orders.index') }}"> Back</a>
         <a class="btn btn-warning" href="{{ route('orders.edit', $order->id) }}"> Edit</a>
-    </div>
-
-    <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Name:</strong>
@@ -36,7 +43,9 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Drinks Ordered:</strong>
-                {{ $order->drinks }}
+                @for($i = 0;$i < count(explode('/', $order->drinks)) - 1;$i++)
+                    <br><span class="label label-success">{{ explode('/', $order->drinks)[$i] }}</span><br>
+                @endfor
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">

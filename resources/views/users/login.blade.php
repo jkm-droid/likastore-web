@@ -34,7 +34,7 @@
                     <div class="col-xs-8">
                         <div class="checkbox icheck ">
                             <label>
-                                <input class="ml-3" type="checkbox"> Remember Me
+                                <input name="remember_me" class="ml-3" type="checkbox"> Remember Me
                             </label>
                         </div>
                     </div><!-- /.col -->
@@ -45,7 +45,7 @@
             </form>
 
             <a href="{{ route('user.forgot_pass') }}">I forgot my password</a><br>
-            <a href="{{ route('show.register') }}" class="text-center">Register a new membership</a>
+{{--            <a href="{{ route('show.register') }}" class="text-center">Register a new membership</a>--}}
 
         </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->
